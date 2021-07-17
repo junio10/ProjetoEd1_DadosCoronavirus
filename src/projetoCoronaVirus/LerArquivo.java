@@ -24,25 +24,28 @@ public class LerArquivo {
         Arvore1 a = new Arvore1();
         File arquivoCSV = new File("C:\\Users\\junio\\Downloads\\arquivoLeitura.csv");
         
-        DateFormat formatter = new SimpleDateFormat("dd/mm/yy");
-      
+        DateFormat formatter = new SimpleDateFormat("dd/mm/yyyy");
+        int cont = 0;
+        
+       
         
         try{
             String linhas= new String();
             Scanner leitor = new Scanner(arquivoCSV);
-           
+            
             leitor.nextLine();
             
             while(leitor.hasNext()){
                 Dados dadosLidos = new Dados();
                 linhas = leitor.nextLine();
                 
+                
                 String []valores = linhas.split(";");
                
                 dadosLidos.setRegiao(valores[0]);
                 dadosLidos.setEstado(valores[1]);
                 dadosLidos.setMunicipio(valores[2]);
-              
+               
                 if(valores[3].isEmpty()==true){
                   valores[3] = "0";
                 }
@@ -58,13 +61,13 @@ public class LerArquivo {
                 dadosLidos.setCodregiao(Integer.parseInt(valores[5]));
                 dadosLidos.setNomeRegiao(valores[6]);
                 
-                Date data = null;
+                Date data = new Date();
                 try {
-                    data = (Date)formatter.parse(valores[7]);
+                   data = (Date)formatter.parse(valores[7]);
                 } catch (ParseException ex) {
                     Logger.getLogger(LerArquivo.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+              
                 dadosLidos.setData(data);
                 
                 dadosLidos.setSemanaEpi(valores[8]);
@@ -73,20 +76,28 @@ public class LerArquivo {
                 dadosLidos.setCasosNovos(valores[11]);
                 dadosLidos.setObitosAcumulados(valores[12]);
                 dadosLidos.setObitosNovos(valores[13]);
-                dadosLidos.setRecuperadosNovos(valores[14]);
-                dadosLidos.setAcompanhamentoNovos(valores[15]);
-                dadosLidos.setInteriorMet(valores[16]);
-               
-              
+                
                 a.insere(dadosLidos);
                
-             
+       
             }
             
         }catch(FileNotFoundException e){
         
         }
-        a.raiz(a.getT());
+        
+        a.InOrdem(a.getT());
+        String x = "28/03/2020";
+        Date data1 = new Date();
+        try {
+                   data1 = formatter.parse(x);
+                } catch (ParseException ex) {
+                    Logger.getLogger(LerArquivo.class.getName()).log(Level.SEVERE, null, ex);
+                }
+      
+              
+        
+        
        
     }
     

@@ -32,92 +32,74 @@ public class Arvore1 {
        public void InOrdem(Nodo t){
            if(t != null){
                InOrdem(t.esq);
-               System.out.println(t.dado.getCasosNovos()+" "+t.dado.getData());
+               System.out.println(t.dado.getCoduf()+" "+t.dado.getCasosNovos()+" "+t.dado.getData()+" " +t.dado.getEstado()+" "+t.dado.getNomeRegiao());
                InOrdem(t.dir);
            }
        }
-       public void InserePrincipal(Dados dado){
-           t = insere(dado);
-       }
-
-       public Nodo insere(Dados dado){
-           //brasil e estado, lado esquerdo
-           if(dado.getCodregiao() == 0 && dado.getCodmun() == 0){
-             t.esq = InsereEstados(dado, t.esq,null);
-           }else{
-               //municipios
-             t.esq = insere(dado, t.dir, null); 
-           }
-          return t;
-       }
+      
        
-       public Nodo InsereEstados(Dados dado,Nodo t, Nodo pai){
-            if(t == null){
-               t = new Nodo(dado, pai);
-            }else{
-                 pai =t;
-                 if(dado.getCoduf() < t.dado.getCoduf()){
-                   t.esq = insere(dado,t.esq , pai);  
-                 }else if(dado.getCoduf() > t.dado.getCoduf()){
-                   t.dir = insere(dado, t.esq,pai);  
-                 }else if(dado.getCoduf() == t.dado.getCoduf()){
-                   if(dado.getData().after(t.dado.getData())== true){
-                       t.dado.setData(dado.getData());
-                       return t;
-                   }
-                   return t;
-                 }
-                 
-            }
-             return t;
+       public void insere(Dados dado){
+           //brasil e estado, lado esquerdo  
+             t = insere(dado,t,null);
        }
+      
        public Nodo insere(Dados dado, Nodo t, Nodo pai){
            if(t == null){
                t = new Nodo(dado, pai);
            }else{
-            pai = t;
-
-           if(dado.getCodmun() < t.dado.getCodmun()){
-                t.esq = insere(dado,t.esq , pai);
-           }else if(dado.getCodmun() > t.dado.getCodmun()){
-               t.dir =insere(dado, t.dir, pai);
-           }else if(dado.getCodmun() == t.dado.getCodmun()){
-               //comparacao das datas duas condicoes, se for maior 
-               if(dado.getData().before(t.dado.getData()) == true){
-                   //dataMenor
-                  t.esq = insere(dado, t.esq, pai); 
-               }else{
-                   //data maior
-                  t.dir = insere(dado, t.dir, pai);
+                if(dado.getMunicipio().equals("") && dado.getCodmun() == 0){
+                   if(dado.getCoduf() > t.dado.getCoduf()){
+                    t.dir = insere(dado,t.dir, pai);
+                   }else if(dado.getCoduf() < t.dado.getCoduf()){
+                    t.esq = insere(dado,t.esq, pai);        
+                   }else{
+                     if (dado.getData().after(t.dado.getData())){
+                          t.dado = dado;
+                          return t;
+                     }
+                    } 
+                }else if(!dado.getMunicipio().equals("") && dado.getCodmun()!= 0){
+                    
+                    if(dado.getCodmun() < t.dado.getCoduf()){
+                    t.esq = insere(dado, t.esq, pai);
+                    }else if(dado.getCodmun() > t.dado.getCoduf()){
+                    t.dir=  insere(dado, t.dir, pai);
+                    //caso o id codmun for igual
+                    }else{
+                        if(dado.getData().before(t.dado.getData())){
+                          t.esq= insere(dado, t.esq, pai);
+                        }else{
+                          t.dir= insere(dado, t.dir, pai);
+                        }
+                    }
+                   
                }
-             
-               
-           }
-           }
+               }
+             return t;
        
+           }
            
-           return t;
-           
-       }
+       
        public void pesquisa(int codMun, Date data){
               Pesquisa(codMun,data, t);
        }
-       public void Pesquisa(int codMun,Date dataNot , Nodo t){
+       public Nodo Pesquisa(int codMun,Date dataNot , Nodo t){
               if(t == null){
                   System.out.println("no nao enocntrado");
               }
               
               if(codMun < t.dado.getCodmun()){
                 Pesquisa(codMun,dataNot,t.esq);
-              }else if(codMun > t.dado.getCodmun()){
+              }
+              if(codMun > t.dado.getCodmun()){
                 Pesquisa(codMun,dataNot,t.dir);
               }
-              else if(codMun == t.dado.getCodmun()){
+              if(codMun == t.dado.getCodmun()){
                   if(t.dado.getData().before(dataNot) == true){
                    //dataMenor
                    Pesquisa(codMun,dataNot,t.esq);
-                   if(t.dado.getData().equals(dataNot)){
-                       System.out.println(t.dado.getCasosNovos());
+                   if(t.dado.getData().compareTo(dataNot) == 0){
+                      return t;
                    }
                    }else{
                    //data maior
@@ -125,10 +107,11 @@ public class Arvore1 {
                    }
                   
               }
-              
+              return t;
+              }
             
               
-       }
+       
        /*
        public void Remover(int chave, Nodo t){
            if(t == null){
