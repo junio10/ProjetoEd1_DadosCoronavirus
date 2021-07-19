@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * @author junio
  */
 public class LerArquivo {
-    public static void main(String[] args) {
+    public static void main(String[] args){
         Arvore1 a = new Arvore1();
         File arquivoCSV = new File("C:\\Users\\junio\\Downloads\\arquivoLeitura.csv");
         
@@ -86,18 +86,21 @@ public class LerArquivo {
         
         }
         
-        a.InOrdem(a.getT());
-        String x = "28/03/2020";
+        //System.out.println(a.t.esq.dado);
+        //System.out.println(a.t.dir.dado);
+       // a.InOrdem(a.getT());
+        String x = "25/01/2021";
         Date data1 = new Date();
         try {
                    data1 = formatter.parse(x);
                 } catch (ParseException ex) {
                     Logger.getLogger(LerArquivo.class.getName()).log(Level.SEVERE, null, ex);
                 }
-      
-              
-        
-        
+        Dados aux = new Dados(130406,data1);
+        Nodo guarda = new Nodo();
+        guarda = a.Pesquisa(aux, a.getT());
+
+        System.out.println(guarda.dado.getData());
        
     }
     

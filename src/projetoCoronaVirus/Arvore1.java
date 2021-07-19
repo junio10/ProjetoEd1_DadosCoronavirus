@@ -36,7 +36,23 @@ public class Arvore1 {
                InOrdem(t.dir);
            }
        }
-      
+       public void Inserebin(Dados []dados, int comeco, int fim){
+           t = Inserebin(t,dados, comeco, fim);
+       }
+       public Nodo Inserebin(Nodo t,Dados []dados, int comeco, int fim){
+            int meio;
+            meio = (comeco+fim)/2;
+            if(comeco > fim){
+                return null;
+            }
+              t = new Nodo(dados[meio]);
+            
+            
+              t.esq = Inserebin(t.esq, dados,comeco,meio-1);
+              t.dir = Inserebin(t.dir, dados,meio+1,fim);
+              
+              return t;
+       }
        
        public void insere(Dados dado){
            //brasil e estado, lado esquerdo  
@@ -59,10 +75,9 @@ public class Arvore1 {
                      }
                     } 
                 }else if(!dado.getMunicipio().equals("") && dado.getCodmun()!= 0){
-                    
-                    if(dado.getCodmun() < t.dado.getCoduf()){
+                    if(dado.getCodmun() < t.dado.getCodmun()){
                     t.esq = insere(dado, t.esq, pai);
-                    }else if(dado.getCodmun() > t.dado.getCoduf()){
+                    }else if(dado.getCodmun() > t.dado.getCodmun()){
                     t.dir=  insere(dado, t.dir, pai);
                     //caso o id codmun for igual
                     }else{
@@ -80,34 +95,35 @@ public class Arvore1 {
            }
            
        
-       public void pesquisa(int codMun, Date data){
-              Pesquisa(codMun,data, t);
+       public Nodo pesquisa(Dados aux){
+              t = Pesquisa(aux, t);
+              return t;
        }
-       public Nodo Pesquisa(int codMun,Date dataNot , Nodo t){
+       public Nodo Pesquisa(Dados aux, Nodo t){
               if(t == null){
-                  System.out.println("no nao enocntrado");
+                  return t;
               }
               
-              if(codMun < t.dado.getCodmun()){
-                Pesquisa(codMun,dataNot,t.esq);
+              if(aux.getCodmun() < t.dado.getCodmun()){
+                t = Pesquisa(aux,t.esq);
               }
-              if(codMun > t.dado.getCodmun()){
-                Pesquisa(codMun,dataNot,t.dir);
+              if(aux.getCodmun() > t.dado.getCodmun()){
+                t = Pesquisa(aux,t.dir);
               }
-              if(codMun == t.dado.getCodmun()){
-                  if(t.dado.getData().before(dataNot) == true){
-                   //dataMenor
-                   Pesquisa(codMun,dataNot,t.esq);
-                   if(t.dado.getData().compareTo(dataNot) == 0){
+              if(aux.getCodmun() == t.dado.getCodmun()){
+                  if(t.dado.getData().equals(aux.getData())){
                       return t;
-                   }
-                   }else{
+                  }
+                  else if(aux.getData().before(t.dado.getData()) == true){
+                   //dataMenor
+                    t = Pesquisa(aux,t.esq);
+                  }else{
                    //data maior
-                    Pesquisa(codMun,dataNot,t.dir);
+                    t = Pesquisa(aux,t.dir);
                    }
                   
               }
-              return t;
+               return t;
               }
             
               

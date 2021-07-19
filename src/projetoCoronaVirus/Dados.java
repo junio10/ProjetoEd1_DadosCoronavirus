@@ -34,7 +34,10 @@ public class Dados{
     public String toString() {
         return "Dados{" + "regiao=" + regiao + ", estado=" + estado + ", municipio=" + municipio + ", coduf=" + coduf + ", codmun=" + codmun + ", codregiao=" + codregiao + ", nomeRegiao=" + nomeRegiao + ", data=" + data + ", semanaEpi=" + semanaEpi + ", numPopulacao=" + numPopulacao + ", casosAcumulados=" + casosAcumulados + ", casosNovos=" + casosNovos + ", ObitosAcumulados=" + ObitosAcumulados + ", ObitosNovos=" + ObitosNovos + ", RecuperadosNovos=" + RecuperadosNovos + ", AcompanhamentoNovos=" + AcompanhamentoNovos + ", interiorMet=" + interiorMet + '}';
     }
-   
+    public Dados(int codMun, Date data){
+          this.codmun = codMun;
+          this.data = data;
+    }
 
     public Dados(String regiao, String estado, String municipio, int coduf, int codmun, int codregiao, String nomeRegiao, Date data, String semanaEpi, String numPopulacao, String casosAcumulados, String casosNovos, String ObitosAcumulados, String ObitosNovos, String RecuperadosNovos, String AcompanhamentoNovos, String interiorMet) {
         this.regiao = regiao;
